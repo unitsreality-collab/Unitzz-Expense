@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction Expense Form</title>
+
+<!-- App Icon Setup -->
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="manifest" href="manifest.json">
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 420px;
+    margin: auto;
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    text-align: center;
+    margin: 10px 0 20px;
+  }
+
+  img {
+    display: block;
+    margin: 10px auto;
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  button {
+    width: 48%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .submit-btn {
+    background: #28a745;
+    color: white;
+  }
+
+  .reset-btn {
+    background: #dc3545;
+    color: white;
+  }
+
+  .submit-btn:active,
+  .reset-btn:active {
+    opacity: 0.8;
+  }
+</style>
+<!-- PWA Meta -->
+<meta name="theme-color" content="#28a745">
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Logo Fix: Make sure image file is in same folder OR use full URL -->
+  <img src="Unitzz%20logo.jpeg" width="100" onerror="this.src='https://via.placeholder.com/100?text=Logo'">
+  <h2>Expense Form</h2>
+
+  <form id="expenseForm">
+
+    <label>Site Name</label>
+    <input type="text" id="siteName" required>
+
+    <label>Customer Name</label>
+    <input type="text" id="customerName" required>
+
+    <label>Construction Type</label>
+    <select id="constructionType">
+      <option>Aggregates</option>
+      <option>Cement</option>
+      <option>Clay Bricks and Blocks</option>
+      <option>Fabric</option>
+      <option>Fired Brick and Clay Blocks</option>
+      <option>Foam</option>
+      <option>Glass</option>
+      <option>Gypcrete</option>
+      <option>Metal and Steel</option>
+      <option>Mud and Clay</option>
+      <option>Sand</option>
+      <option>Stone or Rock</option>
+      <option>Wood and Timber</option>
+      <option>Thatch</option>
+      <option>Plastic</option>
+      <option>Steel</option>
+      <option>Bitumen</option>
+    </select>
+
+    <label>Purpose</label>
+    <select id="purpose">
+      <option>Contractor Payment</option>
+      <option>Architect Payment</option>
+      <option>Plinth</option>
+      <option>Brick Work</option>
+      <option>Slab</option>
+      <option>Plaster</option>
+      <option>Plumbing Work</option>
+      <option>Electricity Work</option>
+      <option>Painting</option>
+      <option>Flooring</option>
+      <option>Personal Abhishek</option>
+      <option>Personal Raman</option>
+      <option>Office Exp</option>
+    </select>
+
+    <label>Amount Received</label>
+    <input type="number" id="amountReceived">
+
+    <label>Received From</label>
+    <select id="receivedFrom">
+      <option>Customer 1</option>
+      <option>Customer 2</option>
+    </select>
+
+    <label>Amount Spent</label>
+    <input type="number" id="amountSpent">
+
+    <label>Account</label>
+    <select id="account">
+      <option>Account 1</option>
+      <option>Account 2</option>
+    </select>
+
+    <div class="btn-group">
+      <button type="submit" class="submit-btn">Submit</button>
+      <button type="reset" class="reset-btn">Reset</button>
+    </div>
+
+  </form>
+</div>
+
+<script>
+document.getElementById("expenseForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  var data = {
+    siteName: document.getElementById("siteName").value,
+    customerName: document.getElementById("customerName").value,
+    constructionType: document.getElementById("constructionType").value,
+    purpose: document.getElementById("purpose").value,
+    amountReceived: document.getElementById("amountReceived").value,
+    receivedFrom: document.getElementById("receivedFrom").value,
+    amountSpent: document.getElementById("amountSpent").value,
+    account: document.getElementById("account").value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbwBJRpYuHyZnvAxBpJsKZdAUx6siUDvZTw5Cm3nz6w9S37gXww5G3eUk_Cel2KwGI0RMg/exec", {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    alert("Data Saved Successfully!");
+    document.getElementById("expenseForm").reset();
+  })
+  .catch(err => {
+    alert("Error: " + err);
+  });
+});
+</script>
+
+</body>
+</html>
