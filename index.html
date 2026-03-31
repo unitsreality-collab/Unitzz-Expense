@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#28a745">
+  <title>Construction Expense Form</title>
+
+  <!-- 🔥 PWA Manifest (create this file in same folder) -->
+  <!-- manifest.json content:
+  {
+    "name": "Unitzz Expense App",
+    "short_name": "Unitzz",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#28a745",
+    "icons": [
+      {
+        "src": "https://lh3.googleusercontent.com/d/1Gz7KVKUOPzu-JTZhtz2G1wy7zntIdL2-",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ]
+  }
+  -->
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .logo { text-align: center; }
+    .logo img { width: 100px; }
+
+    h2 { text-align: center; margin: 10px 0 20px; }
+
+    label { font-weight: bold; font-size: 14px; }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .btn-group { display: flex; gap: 10px; }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .submit-btn { background: #28a745; color: white; }
+    .reset-btn { background: #dc3545; color: white; }
+    .install-btn { background: #007bff; color: white; margin-top:10px; }
+
+    button:active { transform: scale(0.97); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="logo">
+    <img src="https://lh3.googleusercontent.com/d/1Gz7KVKUOPzu-JTZhtz2G1wy7zntIdL2-" alt="Logo">
+    <h2>Expense Form</h2>
+  </div>
+
+  <form id="expenseForm">
+
+    <label>Site Name</label>
+    <input type="text" id="siteName" required>
+
+    <label>Customer Name</label>
+    <input type="text" id="customerName" required>
+
+    <label>Construction Type</label>
+    <select id="constructionType">
+      <option>Cement</option>
+      <option>Sand</option>
+      <option>Steel</option>
+      <option>Wood</option>
+      <option>Glass</option>
+    </select>
+
+    <label>Purpose</label>
+    <select id="purpose">
+      <option>Contractor Payment</option>
+      <option>Plumbing</option>
+      <option>Electricity</option>
+      <option>Painting</option>
+    </select>
+
+    <label>Amount Received</label>
+    <input type="number" id="amountReceived">
+
+    <label>Received From</label>
+    <select id="receivedFrom">
+      <option>Customer 1</option>
+      <option>Customer 2</option>
+    </select>
+
+    <label>Amount Spent</label>
+    <input type="number" id="amountSpent">
+
+    <label>From Account</label>
+    <select id="account">
+      <option>Account 1</option>
+      <option>Account 2</option>
+    </select>
+
+    <div class="btn-group">
+      <button type="submit" class="submit-btn">Submit</button>
+      <button type="reset" class="reset-btn">Reset</button>
+    </div>
+
+    <!-- 📱 Install Button -->
+    <button type="button" id="installBtn" class="install-btn" style="display:none;">Install App</button>
+
+  </form>
+
+</div>
+
+<script>
+// 🔥 Form Submit
+document.getElementById("expenseForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  var data = {
+    siteName: document.getElementById("siteName").value,
+    customerName: document.getElementById("customerName").value,
+    constructionType: document.getElementById("constructionType").value,
+    purpose: document.getElementById("purpose").value,
+    amountReceived: document.getElementById("amountReceived").value,
+    receivedFrom: document.getElementById("receivedFrom").value,
+    amountSpent: document.getElementById("amountSpent").value,
+    account: document.getElementById("account").value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbwBJRpYuHyZnvAxBpJsKZdAUx6siUDvZTw5Cm3nz6w9S37gXww5G3eUk_Cel2KwGI0RMg/exec", {
+    method: "POST",
+    mode: "no-cors",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    alert("Saved ✅");
+    document.getElementById("expenseForm").reset();
+  });
+});
+
+// 🔥 Install App Logic
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = "block";
+});
+
+installBtn.addEventListener("click", () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      installBtn.style.display = "none";
+    });
+  }
+});
+</script>
+
+</body>
+</html>
